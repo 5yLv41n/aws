@@ -2,11 +2,15 @@
 
 initialize: start-docker
 start-docker:
-	echo "Noop"
+	docker start async_aws_localstack && exit 0 || \
+	docker start async_aws_localstack-athena && exit 0 || \
+	docker pull localstack/localstack && \
+	docker run -d -p 4576:4566 -e SERVICES=athena -v /var/run/docker.sock:/var/run/docker.sock --name async_aws_localstack-athena localstack/localstack && \
+	docker run --rm --link async_aws_localstack-athena:localstack martin/wait -c localstack:4566
 
 test: initialize
 	./vendor/bin/simple-phpunit
 
 clean: stop-docker
 stop-docker:
-	echo "Noop"
+	docker stop async_aws_localstack-athena || true

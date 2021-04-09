@@ -13,39 +13,34 @@ use AsyncAws\Core\Test\TestCase;
 
 class AthenaClientTest extends TestCase
 {
-    public function testGetQueryExecution(): void
+/*    public function testGetQueryExecution(): void
     {
         $client = $this->getClient();
 
         $input = new GetQueryExecutionInput([
-            'QueryExecutionId' => 'change me',
+            'QueryExecutionId' => 'foobar',
         ]);
         $result = $client->GetQueryExecution($input);
 
         $result->resolve();
-
-        // self::assertTODO(expected, $result->getQueryExecution());
-    }
+dd($result->getQueryExecution()->getQueryExecutionId());
+        self::assertTODO('QUEUED', $result->getQueryExecution()->getStatus());
+    }*/
 
     public function testStartQueryExecution(): void
     {
         $client = $this->getClient();
 
         $input = new StartQueryExecutionInput([
-            'QueryString' => 'change me',
-            'ClientRequestToken' => 'change me',
+            'QueryString' => 'SELECT field FROM table LIMIT 1',
+            'ClientRequestToken' => 'token',
             'QueryExecutionContext' => new QueryExecutionContext([
-                'Database' => 'change me',
-                'Catalog' => 'change me',
+                'Database' => 'db',
+                'Catalog' => 'catalog',
             ]),
             'ResultConfiguration' => new ResultConfiguration([
-                'OutputLocation' => 'change me',
-                'EncryptionConfiguration' => new EncryptionConfiguration([
-                    'EncryptionOption' => 'change me',
-                    'KmsKey' => 'change me',
-                ]),
+                'OutputLocation' => 's3://bucket',
             ]),
-            'WorkGroup' => 'change me',
         ]);
         $result = $client->StartQueryExecution($input);
 
@@ -56,10 +51,8 @@ class AthenaClientTest extends TestCase
 
     private function getClient(): AthenaClient
     {
-        self::fail('Not implemented');
-
         return new AthenaClient([
-            'endpoint' => 'http://localhost',
+            'endpoint' => 'http://localhost:4576',
         ], new NullProvider());
     }
 }

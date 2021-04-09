@@ -2,6 +2,7 @@
 
 namespace AsyncAws\Athena\Tests\Unit;
 
+use AsyncAws\Athena\AthenaClient;
 use AsyncAws\Athena\Input\GetQueryExecutionInput;
 use AsyncAws\Athena\Input\StartQueryExecutionInput;
 use AsyncAws\Athena\Result\GetQueryExecutionOutput;

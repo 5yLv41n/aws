@@ -13,16 +13,17 @@ class StartQueryExecutionOutputTest extends TestCase
 {
     public function testStartQueryExecutionOutput(): void
     {
-        self::fail('Not implemented');
-
         // see https://docs.aws.amazon.com/athena/latest/APIReference/API_StartQueryExecution.html
         $response = new SimpleMockedResponse('{
-            "change": "it"
+            "QueryExecutionId": "foobar"
         }');
 
         $client = new MockHttpClient($response);
-        $result = new StartQueryExecutionOutput(new Response($client->request('POST', 'http://localhost'), $client, new NullLogger()));
 
-        self::assertSame('changeIt', $result->getQueryExecutionId());
+        $result = new StartQueryExecutionOutput(
+            new Response($client->request('POST', 'http://localhost'), $client, new NullLogger())
+        );
+
+        self::assertSame('foobar', $result->getQueryExecutionId());
     }
 }

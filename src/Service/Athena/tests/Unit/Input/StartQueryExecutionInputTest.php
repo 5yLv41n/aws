@@ -12,33 +12,25 @@ class StartQueryExecutionInputTest extends TestCase
 {
     public function testRequest(): void
     {
-        self::fail('Not implemented');
-
         $input = new StartQueryExecutionInput([
-            'QueryString' => 'change me',
-            'ClientRequestToken' => 'change me',
+            'QueryString' => 'SELECT field FROM table LIMIT 1',
+            'ClientRequestToken' => 'token',
             'QueryExecutionContext' => new QueryExecutionContext([
-                'Database' => 'change me',
-                'Catalog' => 'change me',
+                'Database' => 'db',
+                'Catalog' => 'aws_catalog',
             ]),
             'ResultConfiguration' => new ResultConfiguration([
-                'OutputLocation' => 'change me',
-                'EncryptionConfiguration' => new EncryptionConfiguration([
-                    'EncryptionOption' => 'change me',
-                    'KmsKey' => 'change me',
-                ]),
+                'OutputLocation' => 's3://bucket',
             ]),
-            'WorkGroup' => 'change me',
         ]);
 
         // see https://docs.aws.amazon.com/athena/latest/APIReference/Welcome.html/API_StartQueryExecution.html
         $expected = '
             POST / HTTP/1.0
             Content-Type: application/x-amz-json-1.1
+            x-amz-target: AmazonAthena.StartQueryExecution
 
-            {
-            "change": "it"
-        }
+            {"QueryString":"SELECT field FROM table LIMIT 1","ClientRequestToken":"token","QueryExecutionContext":{"Database":"db","Catalog":"aws_catalog"},"ResultConfiguration":{"OutputLocation":"s3:\/\/bucket"}}
                 ';
 
         self::assertRequestEqualsHttpRequest($expected, $input->request());
