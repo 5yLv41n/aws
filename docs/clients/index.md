@@ -134,6 +134,7 @@ for more information.
 
 | Api Client                                  | Package name
 |---------------------------------------------|-------------
+| [Athena](./athena.md)                       | [async-aws/athena](https://packagist.org/packages/async-aws/athena)
 | [CloudFormation](./cf.md)                   | [async-aws/cloud-formation](https://packagist.org/packages/async-aws/cloud-formation)
 | [CloudFront](./cloud-front.md)              | [async-aws/cloud-front](https://packagist.org/packages/async-aws/cloud-front)
 | [CloudWatchLogs](./cloud-watch-logs.md)     | [async-aws/cloud-watch-logs](https://packagist.org/packages/async-aws/cloud-watch-logs)

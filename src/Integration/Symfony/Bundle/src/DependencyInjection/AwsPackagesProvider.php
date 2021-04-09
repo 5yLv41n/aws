@@ -9,6 +9,10 @@ class AwsPackagesProvider
     public static function getAllServices(): array
     {
         return [
+            'athena' => [
+                'class' => \AsyncAws\Athena\AthenaClient::class,
+                'package' => 'async-aws/athena',
+            ],
             'cloud_formation' => [
                 'class' => \AsyncAws\CloudFormation\CloudFormationClient::class,
                 'package' => 'async-aws/cloud-formation',

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace AsyncAws\Core;
 
+use AsyncAws\Athena\AthenaClient;
 use AsyncAws\CloudFormation\CloudFormationClient;
 use AsyncAws\CloudFront\CloudFrontClient;
 use AsyncAws\CloudWatchLogs\CloudWatchLogsClient;
@@ -79,6 +80,19 @@ class AwsClientFactory
         $this->logger = $logger ?? new NullLogger();
         $this->configuration = $configuration;
         $this->credentialProvider = $credentialProvider ?? new CacheProvider(ChainProvider::createDefaultChain($this->httpClient, $this->logger));
+    }
+
+    public function athena(): AthenaClient
+    {
+        if (!class_exists(AthenaClient::class)) {
+            throw MissingDependency::create('async-aws/athena', 'Athena');
+        }
+
+        if (!isset($this->serviceCache[__METHOD__])) {
+            $this->serviceCache[__METHOD__] = new AthenaClient($this->configuration, $this->credentialProvider, $this->httpClient, $this->logger);
+        }
+
+        return $this->serviceCache[__METHOD__];
     }
 
     public function cloudFormation(): CloudFormationClient

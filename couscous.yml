@@ -31,6 +31,9 @@ menu:
             index:
                 text: Overview
                 url: /clients/
+            athena:
+                text: Athena
+                url: /clients/athena.html
             cf:
                 text: Cloud Formation
                 url: /clients/cf.html
